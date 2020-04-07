@@ -2,8 +2,9 @@
 <html>
 <head>
     <title>Image Gallery Example</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     <style type="text/css">
     .gallery{
         display: inline-block;
@@ -53,14 +54,22 @@
         @endif
 
         <div class="row">
-            <div class="col-md-4">
-                <strong>Title:</strong>
+            <div class="col-md-3">
+                <strong>Title 01:</strong>
                 <input type="text" name="title" class="form-control" placeholder="Title">
             </div>
-
-            <div class="col-md-4">
-                <strong>Image:</strong>
+            <div class="col-md-3">
+                <strong>Image 01:</strong>
                 <input type="file" name="image" class="form-control">
+            </div>
+            
+            <div class="col-md-3">
+                <strong>Title 02:</strong>
+                <input type="text" name="title1" class="form-control" placeholder="Title">
+            </div>
+            <div class="col-md-3">
+                <strong>Image 02:</strong>
+                <input type="file" name="image1" class="form-control">
             </div>
             <div class="col-md-3">
             <label for="category">Choose a category:</label>
@@ -109,15 +118,10 @@
 
 
 <script type="text/javascript">
-
     $(document).ready(function(){
-
         $(".fancybox").fancybox({
-
             openEffect: "none",
-
             closeEffect: "none"
-
         });
     });
 </script>

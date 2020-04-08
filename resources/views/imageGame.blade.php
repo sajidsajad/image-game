@@ -10,11 +10,17 @@
         <style>
          .maindiv{
             border: solid 2px grey; 
-            height: 600px; 
+            height: 400px; 
             width: 90%;
             margin: 30px auto;
             background-image: url("https://iammagnus.com/wp-content/uploads/2016/05/website-design-background-1.jpg");
 
+        }
+        @media only screen and (max-width: 550px) {
+            /* For mobile phones: */
+            .maindiv {
+                height: 600px;
+            }
         }
         .col-1 {width: 8.33%;}
         .col-2 {width: 16.66%;}
@@ -43,11 +49,11 @@
             <div class="row" style="margin: 25px auto;">
                 <div class="col-sm-6 col-xs-6" style="text-align:center;margin-bottom: 5px;">
                     <img style="display: block;margin: auto;height: 200px;width: 200px;border-radius: 200px;" id="img1" data-id="" class="img-responsive img-fluid"  src="" alt="map">
-                    <h4 id="title01"></h4>
+                    <h4 id="title01" style="color:white"></h4>
                 </div>
                 <div class="col-sm-6 col-xs-6" style="text-align:center;">
                     <img style="display: block;margin: auto;height: 200px;width: 200px;border-radius: 200px;" id="img2" data-id="" class="img-responsive img-fluid"  src=""  alt="map">
-                    <h4 id="title02"></h4>
+                    <h4 id="title02" style="color:white"></h4>
                 </div>
                 
             </div>
@@ -78,10 +84,10 @@
                 console.log(jsonData[0]);
                 console.log(jsonData[1]);
                 $('#img1').attr('src',APP_URL +'/images/'+ jsonData[0].image);
-                $('#title01').append(jsonData[0].title);
+                $('#title01').text(jsonData[0].title);
                 $('#img1').attr('data-id',jsonData[0].category);
                 $('#img2').attr('src',APP_URL +'/images/'+ jsonData[1].image);
-                $('#title02').append(jsonData[1].title);
+                $('#title02').text(jsonData[1].title);
                 $('#img2').attr('data-id',jsonData[0].category);
             }
         });
@@ -99,11 +105,14 @@
                     "_token": "{{ csrf_token() }}"
                 },
             success: function(jsonData) {
+                console.log(jsonData);
                 if(catList.length >= jsonData.count){
                     catList = [];
                 }
                 $('#img1').attr('src',APP_URL +'/images/'+ jsonData.data[0].image);
+                $('#title01').text(jsonData.data[0].title);
                 $('#img2').attr('src',APP_URL +'/images/'+ jsonData.data[1].image);
+                $('#title02').text(jsonData.data[1].title);
                 $('#img1').attr('data-id',jsonData.data[0].category);
                 $('#img2').attr('data-id',jsonData.data[0].category);
             }

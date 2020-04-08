@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ImageGallery;
+use App\Category;
 use DB;
 use Response;
 
@@ -58,5 +59,14 @@ class ImageGalleryController extends Controller
     {
     	ImageGallery::find($id)->delete();
     	return back()->with('success','Image removed successfully.');	
+    }
+
+    public function addCategory(Request $request){
+        $this->validate($request,[
+            'category' => 'required',
+        ]);
+            $input['category'] = $request->category;
+            Category::create($input);
+    	    return back()->with('success','Category added successfully.');
     }
 }

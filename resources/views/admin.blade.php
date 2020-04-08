@@ -54,29 +54,11 @@
 <!-- //////////////////////////////////////////////////////////// -->
 <div class="container">
             <h3>Image Gallery</h3>
-            <div class="container">
             <div class="row text-center">
-                    <h3>The Basic Modal</h3>
-                    <a href="#" class="btn btn-lg btn-success" data-toggle="modal" data-target="#basicModal">Click to open Modal</a>
+                    <!-- <h3>Add New Category</h3> -->
+                    <a href="/category" class="btn btn-lg btn-success">Add New Category</a>
             </div>
-    </div>
-    <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Basic Modal</h4>
-                </div>
-                <div class="modal-body">
-                    <h3>Modal Body</h3>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
             <!-- ////////////////////////////////////////////////////////////// -->
             <div class="row">
                   <div class="col-md-3">

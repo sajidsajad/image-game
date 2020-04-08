@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',function () {
     return view('imageGame');
 });
+Route::get('/category',function () {
+    return view('category');
+});
 Route::post('nextcat','ImageGalleryController@nextCat');
 Route::get('getimages','ImageGalleryController@getImages');
 
@@ -23,3 +26,6 @@ Route::get('getimages','ImageGalleryController@getImages');
 Route::get('admin', 'ImageGalleryController@index');
 Route::post('admin', 'ImageGalleryController@upload');
 Route::get('admin/{id}', 'ImageGalleryController@destroy');
+
+Route::post('category', 'ImageGalleryController@addCategory');
+

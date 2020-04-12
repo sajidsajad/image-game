@@ -28,4 +28,5 @@ Route::post('admin', 'ImageGalleryController@upload');
 Route::get('admin/{id}', 'ImageGalleryController@destroy');
 
 Route::post('category', 'ImageGalleryController@addCategory');
+Route::get('getCategories', 'ImageGalleryController@getCategories');
 

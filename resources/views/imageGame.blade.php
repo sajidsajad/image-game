@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <title>Image Game</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <style>
          .maindiv{
@@ -19,8 +20,9 @@
         @media only screen and (max-width: 550px) {
             /* For mobile phones: */
             .maindiv {
-                height: 600px;
+                height: 750px;
             }
+            .second { margin-top: 15px;}
         }
         .col-1 {width: 8.33%;}
         .col-2 {width: 16.66%;}
@@ -50,10 +52,12 @@
                 <div class="col-sm-6 col-xs-6" style="text-align:center;margin-bottom: 5px;">
                     <img style="display: block;margin: auto;height: 200px;width: 200px;border-radius: 200px;" id="img1" data-id="" class="img-responsive img-fluid"  src="" alt="map">
                     <h4 id="title01" style="color:white"></h4>
+                    <span id = "heart1"><i class="fa fa-heart-o fa-3x" aria-hidden="true" ></i> </span>
                 </div>
-                <div class="col-sm-6 col-xs-6" style="text-align:center;">
+                <div class="second col-sm-6 col-xs-6" style="text-align:center;">
                     <img style="display: block;margin: auto;height: 200px;width: 200px;border-radius: 200px;" id="img2" data-id="" class="img-responsive img-fluid"  src=""  alt="map">
                     <h4 id="title02" style="color:white"></h4>
+                    <span id = "heart2"><i class="fa fa-heart-o fa-3x" aria-hidden="true" ></i> </span>
                 </div>
                 
             </div>
@@ -66,12 +70,16 @@
         getImages();
     });
 
-    $("#img1").click(function(){
-        nextCat($(this).attr('data-id'));
+    $("#heart1").click(function(){
+        $(this).css("color", "red");
+        nextCat($("#img1").attr('data-id'));
+        // $(this).css("color","white"); trying to undo the red color of heart
     });
 
-    $("#img2").click(function(){
-        nextCat($(this).attr('data-id'));
+    $("#heart2").click(function(){
+        $(this).css("color", "red");
+        nextCat($("#img2").attr('data-id'));
+        // $(this).css("color","white"); trying to undo the red color of heart
     });
 
     function getImages(){
@@ -81,20 +89,17 @@
             type: 'GET',
             dataType: 'JSON',
             success: function(jsonData) {
-                console.log(jsonData[0]);
-                console.log(jsonData[1]);
                 $('#img1').attr('src',APP_URL +'/images/'+ jsonData[0].image);
                 $('#title01').text(jsonData[0].title);
-                $('#img1').attr('data-id',jsonData[0].category);
+                $('#img1').attr('data-id',jsonData[0].category_id);
                 $('#img2').attr('src',APP_URL +'/images/'+ jsonData[1].image);
                 $('#title02').text(jsonData[1].title);
-                $('#img2').attr('data-id',jsonData[0].category);
+                $('#img2').attr('data-id',jsonData[0].category_id);
             }
         });
     }
 
     function nextCat(cat){
-        // console.log(catList.length);
         catList.push(cat);
         var url = '{{ url('nextcat') }}';
         $.ajax({
@@ -105,7 +110,6 @@
                     "_token": "{{ csrf_token() }}"
                 },
             success: function(jsonData) {
-                console.log(jsonData);
                 if(catList.length >= jsonData.count){
                     catList = [];
                 }
@@ -113,8 +117,11 @@
                 $('#title01').text(jsonData.data[0].title);
                 $('#img2').attr('src',APP_URL +'/images/'+ jsonData.data[1].image);
                 $('#title02').text(jsonData.data[1].title);
-                $('#img1').attr('data-id',jsonData.data[0].category);
-                $('#img2').attr('data-id',jsonData.data[0].category);
+                $('#img1').attr('data-id',jsonData.data[0].category_id);
+                $('#img2').attr('data-id',jsonData.data[0].category_id);
+            },
+            error : function(xhr,error){
+                console.log(error);
             }
         });
     }

@@ -3,6 +3,8 @@
 <head>
       <title>Image Gallery Example</title>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <style type="text/css">
@@ -58,7 +60,9 @@
                     <!-- <h3>Add New Category</h3> -->
                     <a href="/category" class="btn btn-lg btn-success">Add New Category</a>
             </div>
-    
+            <!-- <button type="button" class="btn btn-primary" id="#btn" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button> -->
             <!-- ////////////////////////////////////////////////////////////// -->
             <div class="row">
                   <div class="col-md-3">
@@ -78,21 +82,38 @@
                         <strong>Image 02:</strong>
                         <input type="file" name="image1" class="form-control">
                   </div>
-                  <!-- <div class="col-md-3">
+                  <div class="col-md-3">
                   <label for="category">Choose a category:</label>
                   <select class="form-control" name="category" id="category">
-                  <option value="flags">Flags</option>
-                  <option value="players">Players</option>
-                  <option value="cars">Cars</option>
-                  <option value="games">Games</option>
+                  <!-- <option value="games">Games</option> -->
                   </select> 
-                  </div> -->
+                  </div>
                   <div class="col-md-1">
                         <br/>
                         <button type="submit" class="btn btn-success">Upload</button>
                   </div>
             </div>
       </form> 
+      <!-- Modal -->
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div> -->
 
 
       <div class="row">
@@ -126,11 +147,28 @@
 
 <script type="text/javascript">
       $(document).ready(function(){
+//             $('#btnTest').click(function() {
+//     $('#exampleModal').modal('show');
+//   });
+            getCategories();
             $(".fancybox").fancybox({
                   openEffect: "none",
                   closeEffect: "none"
             });
       });
+      function getCategories(){
+            var url = '{{ url('getCategories') }}';
+            $.ajax({
+                  url: url,
+                  type: 'GET',
+                  dataType: 'JSON',
+                  success: function(jsonData) {
+                        $.each(jsonData, function(key, value) {   
+                        $('#category').append($("<option></option>").attr("value",value.id).text(value.category)); 
+                        });
+                  }
+            });
+      }
 </script>
 
 </html>

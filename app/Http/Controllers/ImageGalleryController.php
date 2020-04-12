@@ -16,19 +16,18 @@ class ImageGalleryController extends Controller
     }
 
     public function getImages(){
-        $data = DB::table('image_gallery')->where("category","=","players")->limit(2)->get();
+        $data = DB::table('image_gallery')->orderBy('category_id')->limit(2)->get();
         return $data;
     }
 
-    public function nextCat(Request $request){
-        // return $count = ImageGallery::count()/2;
-        // return $request->all();
-        if(count($request->catList) == ImageGallery::count()/2 - 1){
-            $data = DB::table('image_gallery')->where("category","=","players")->limit(2)->get();
-            $count = ImageGallery::count()/2 - 1;
+    public function nextCat(Request $request){        
+        if(count($request->catList) >= ImageGallery::count()/2){
+            // return $request->all();
+            $data = DB::table('image_gallery')->orderBy('category_id')->limit(2)->get();
+            $count = ImageGallery::count()/2;
         }else{
-            $data = ImageGallery::whereNotIn('category', $request->catList)->orderBy('category')->limit(2)->get();
-            $count = ImageGallery::count()/2 - 1 ;
+            $data = ImageGallery::whereNotIn('category_id', $request->catList)->orderBy('category_id')->limit(2)->get();
+            $count = ImageGallery::count()/2;
         }
         return Response::json(array('data' => $data, 'count' => $count));
     }
@@ -41,18 +40,22 @@ class ImageGalleryController extends Controller
             'image1' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'category'=> 'required',
         ]);
-            $input['image'] = time().'.'.$request->image->getClientOriginalExtension();
-            $request->image->move(public_path('images'), $input['image']);
-            $input['title'] = $request->title;
-            $input['category'] = $request->category;
-            ImageGallery::create($input);
 
-            $input['image'] = time().'.'.$request->image1->getClientOriginalExtension();
-            $request->image1->move(public_path('images'), $input['image']);
-            $input['title'] = $request->title1;
-            $input['category'] = $request->category;
-            ImageGallery::create($input);
-    	    return back()->with('success','Images Uploaded successfully.');
+        $image = new ImageGallery();
+        $image->image = time().'.'.$request->image->getClientOriginalExtension();
+        $request->image->move(public_path('images'), $image->image);
+        $image->title = $request->title;
+        $image->category_id = $request->category;
+        $image->save();
+
+        $image1 = new ImageGallery();
+        $image1->image = time().'1.'.$request->image1->getClientOriginalExtension();
+        $request->image1->move(public_path('images'), $image1->image);
+        $image1->title = $request->title1;
+        $image1->category_id = $request->category;
+        $image1->save();
+        
+        return back()->with('success','Images Uploaded successfully.');
     }
 
     public function destroy($id)
@@ -65,8 +68,13 @@ class ImageGalleryController extends Controller
         $this->validate($request,[
             'category' => 'required',
         ]);
-            $input['category'] = $request->category;
-            Category::create($input);
-    	    return back()->with('success','Category added successfully.');
+        $input['category'] = $request->category;
+        Category::create($input);
+        return back()->with('success','Category added successfully.');
+    }
+
+    public function getCategories(){
+        $cat = Category::get();
+        return $cat;
     }
 }
